@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 services:
   eventforwarder:
     build:
@@ -17,6 +17,13 @@ services:
       - rabbitmq
       - grafana
       - graphite
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - eventforwarder
+    command: eventforwarder:33706
+
 
   grafana:
       image: grafana/grafana
@@ -49,4 +56,18 @@ services:
     depends_on:
       - rabbitmq
       - eventforwarder
+
+  cadvisor:
+    image: google/cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - '/:/rootfs:ro'
+      - '/var/run:/var/run:rw'
+      - '/sys:/sys:ro'
+      - '/var/lib/docker/:/var/lib/docker:ro'
+#      - '/Users/marcinbranski/workspace/cb-event-forwarder/config/:/var/cadvisor/:ro'
+    depends_on:
+      - eventforwarder
+
 

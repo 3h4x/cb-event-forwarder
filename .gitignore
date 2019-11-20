@@ -2,7 +2,7 @@
 *.o
 *.a
 *.so
-cmd/cb-event-forwarder/cb-event-forwarder
+app/cmd/cb-event-forwarder/cb-event-forwarder
 
 # Folders
 _obj

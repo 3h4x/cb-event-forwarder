@@ -25,15 +25,18 @@ RUN yum install -y zlib zlib-devel cyrus-sasl-devel openssl-devel
 
 RUN yum install -y lsof
 RUN yum install -y python-devel python-pip
-RUN pip install pika cbapi
+RUN pip install --upgrade pip
+RUN pip install -I pika cbapi
 
 #build forwarder
 #
-COPY ./ /go/src/github.com/carbonblack/cb-event-forwarder
+COPY app /go/src/github.com/carbonblack/cb-event-forwarder
 RUN cd /go/src/github.com/carbonblack/cb-event-forwarder ; make build
 
 WORKDIR /go/src/github.com/carbonblack/cb-event-forwarder
 
+ADD cadvisor_cb_forwarder_config.json /var/cadvisor/cb_forwarder_config.json
+LABEL io.cadvisor.metric.cb_forwarder="/var/cadvisor/cb_forwarder_config.json"
 
 ENTRYPOINT ["/bin/bash"]
 CMD ["-c" , "sleep 45 && ./cb-event-forwarder $INIFILE"]

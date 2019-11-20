@@ -1,0 +1,21 @@
+{
+ "endpoint" : "http://localhost:33706/debug/vars",
+ "metrics_config" : [
+  {
+   "name" : "activeConnections",
+   "metric_type" : "gauge",
+   "units" : "number of active connections",
+   "data_type" : "int",
+   "polling_frequency" : 10,
+   "regex" : "Active connections: ([0-9]+)"
+  },
+  {
+   "name" : "reading",
+   "metric_type" : "gauge",
+   "units" : "number of reading connections",
+   "data_type" : "int",
+   "polling_frequency" : 10,
+   "regex" : "Reading: ([0-9]+) .*"
+  }
+ ]
+}
